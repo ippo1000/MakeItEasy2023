@@ -1,0 +1,139 @@
+  - theme: Backend-selected
+    title: Make it Easy
+    path: make-it-easy
+    icon: si:graphql
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Data
+          - square: false
+            columns: 2
+            type: grid
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: sensor.ac_hcs_w
+                name: AC HCS W
+              - type: custom:mushroom-entity-card
+                entity: sensor.fv_overall
+          - type: custom:mushroom-entity-card
+            entity: input_boolean.dummy00
+            name: Open Info
+            icon: mdi:cellphone-information
+            secondary_info: none
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: Open Windows List
+                  content:
+                    type: entities
+                    entities:
+                      - entity: sensor.pv1_current
+                      - entity: sensor.pv1_voltage_v
+                      - entity: sensor.pv2_current
+                      - entity: sensor.pv2_voltage_v
+                      - entity: sensor.ac_main_a
+                      - entity: sensor.ac_main_w
+                      - entity: sensor.ac_hcs_a
+                      - entity: sensor.ac_hcs_w
+                      - entity: sensor.ac_mansarda_a
+                      - entity: sensor.ac_mansarda_w
+                      - entity: sensor.ac_extline1_a
+                      - entity: sensor.ac_extline1_w
+                      - entity: sensor.ac_hobby
+                      - entity: sensor.ac_cucina
+                      - entity: sensor.ac_salone
+                      - entity: sensor.ac_piano_1
+                      - entity: sensor.ac_cdz
+                      - entity: sensor.ac_lights
+                      - entity: sensor.battery_a_current
+                      - entity: sensor.battery_b_current
+                      - entity: sensor.battery_a_voltage
+                      - entity: sensor.battery_b_voltage
+                      - entity: sensor.battery_a_draw
+                      - entity: sensor.battery_b_draw
+                      - entity: sensor.battery_a_power
+                      - entity: sensor.battery_b_power
+                      - entity: sensor.bus_a_to_b_current
+                      - entity: sensor.power_to_dc_aux
+                      - entity: sensor.bus_a_voltage
+                      - entity: sensor.bus_b_voltage
+                      - entity: sensor.bus_a_power
+                      - entity: sensor.bus_b_power
+                      - entity: sensor.bus_a_current
+                      - entity: sensor.bus_b_current
+                      - entity: sensor.bus_a_to_b_power
+                      - entity: sensor.supply_a_current
+                      - entity: sensor.supply_a_voltage
+                      - entity: sensor.supply_b_current
+                      - entity: sensor.supply_b_voltage
+                      - entity: sensor.supply_to_a_power
+                      - entity: sensor.supply_to_b_power
+                      - entity: sensor.pwr_to_a_charging
+                      - entity: sensor.pwr_to_b_charging
+                    title: Energy Test
+      - type: energy-distribution
+        link_dashboard: true
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.power_hobby
+            name: AC HobbyW
+          - entity: sensor.fv_overall
+            name: FV Overall
+            color: green
+        show:
+          labels: true
+          labels_secondary: true
+        hours_to_show: 12
+      - chart_type: line
+        period: 5minute
+        days_to_show: 2
+        type: statistics-graph
+        entities:
+          - sensor.fv_overall
+        title: FV Overall
+        stat_types:
+          - mean
+      - type: custom:apexcharts-card
+        experimental:
+          color_threshold: true
+        graph_span: 24h
+        show:
+          last_updated: true
+        header:
+          standard_format: false
+          show: true
+          show_states: true
+          colorize_states: true
+          title: PowerW Hobby
+        span:
+          start: day
+        series:
+          - entity: sensor.power_hobby
+            type: line
+            group_by:
+              func: last
+              duration: 5m
+            stroke_width: 5
+            show:
+              header_color_threshold: true
+            color_threshold:
+              - value: 0
+                color: steelblue
+              - value: 550
+                color: midnightblue
+              - value: 600
+                color: orange
+              - value: 800
+                color: orangered
+              - value: 900
+                color: red
+      - type: entities
+        entities:
+          - entity: input_number.theshold
+          - entity: input_boolean.dish
+            icon: mdi:washing-machine
+            name: Washing Machine State
