@@ -104,3 +104,4 @@ Copyright (c) [2023] [IFCorp - Filippo Toni]
 [![N|Solid](https://i.ibb.co/kDcyNtD/Powered-By.png)](ifcorp.it)
 
 
+> A Special thanks to Gabriele Santoro, Luca Golinelli and to the organizer and founder of the project Prof.ssa Stefania Gioffrè
