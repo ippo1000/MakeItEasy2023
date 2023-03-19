@@ -85,7 +85,9 @@ If you need clears or issue you can contact me on
 ## License
 All rights reserved
 Copyright (c) [2023] [IFCorp - Filippo Toni]
-[MIT](https://choosealicense.com/licenses/mit/) License
+
+
+[MIT](https://github.com/ippo1000/MakeItEasy2023/blob/main/LICENSE) License
 
 
 [![N|Solid](https://i.ibb.co/kDcyNtD/Powered-By.png)](ifcorp.it)
