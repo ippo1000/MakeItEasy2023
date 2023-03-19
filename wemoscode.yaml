@@ -1,0 +1,94 @@
+esphome:
+  name: dryer_current
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: YOURWIFISSID
+  password: YOURWIFIPASSWD
+  manual_ip:
+    static_ip: 192.168.1.xx
+    gateway: 192.168.1.xx
+    subnet: 255.255.255.0
+    dns1: 8.8.8.8
+
+# Enable logging
+logger:
+
+# Comment out and/or remove MQTT if you want to use the ESPHome API
+
+mqtt:
+  broker: 192.168.1.9
+
+# Uncomment if you want to use the ESPHome API
+api:
+
+ota:
+
+web_server:
+
+sensor:
+  - platform: ct_clamp
+    sensor: adc_sensor
+    name: "151-Dryer Current"
+    unit_of_measurement: "A"
+    icon: "mdi:flash-circle"
+    id: dryer_current_151
+    update_interval: 5s
+    filters:
+      - calibrate_linear:
+          - 0.0 -> 0.0
+          - 0.058 -> 7.00
+    on_value:
+      then:
+        - sensor.template.publish:
+            id: dryer_code
+            # codes: 0 Idle, 1 Door Open, 2 Drying
+            state: !lambda |-
+              if (x > 1) return 2; 
+              return 0;
+#              if (x > 1) return 1;
+
+  - platform: template
+    id: dryer_code
+    internal: true
+#    filters:
+#      - debounce: 2s
+    on_value:
+      then:
+        - text_sensor.template.publish:
+            id: dryer
+            state: !lambda |-
+              if (x == 2) return "on";
+              return "off";
+#              if (x == 1) return "Door Open";
+
+              
+  - platform: adc
+    pin: A0
+    id: adc_sensor
+
+text_sensor:
+  - platform: template
+    name: "Dryer"
+    id: dryer
+    icon: "mdi:tumble-dryer"
+    
+switch:
+  - platform: gpio
+    name: "Dryer Relay"
+    pin: D1
+    id: drrel
+    restore_mode: ALWAYS_OFF
+    
+binary_sensor:
+  - platform: gpio
+    pin: D2
+    name: "TurnON SW"
+    on_press:
+      then:
+        - switch.turn_on: drrel 
+
+    
+
+### All rights are reserved. IFCorp of FilippoT
